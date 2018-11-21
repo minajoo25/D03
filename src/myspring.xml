@@ -11,7 +11,7 @@
 	<context:component-scan base-package="com.*"/>
 	<bean id="cdao" class="com.cust.CustDao" p:dpip="70.12.111.120"/>
 	
-	
+	<!---->
 	<bean id="logadvice" class="com.frame.LogAdvice"/>
 	<bean id="logadvice2" class="com.frame.LogAdvice2"/>
 	<aop:config>
