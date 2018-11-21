@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+	
+	<context:component-scan base-package="com.*"/>
+	<bean id="cdao" class="com.cust.CustDao" p:dpip="70.12.111.120"/>
+	
+	
+	<bean id="logadvice" class="com.frame.LogAdvice"/>
+	<bean id="logadvice2" class="com.frame.LogAdvice2"/>
+	<aop:config>
+		<aop:pointcut id="mypoint" 
+				expression="execution(* com.cust..*Biz.*(..))"/>  
+				           <!--  어디에 적용시킬건지//com.cust..패키지에 밑에있는 모든 클래스를 나타낸 것//*biz biz라고 끝나는 클래스들을 의미?
+				           .*(..)는 모든 함수에 적용해라라는 의미 
+				           biz+는 biz에서 상속받은 모든 자식 클래스를 선택한다는 의미 -->
+		<aop:aspect ref="logadvice2">
+			<aop:around pointcut-ref="mypoint" method="aroundLogger"/>
+			<aop:after-throwing pointcut-ref="mypoint" method="exLogger" throwing="ex"/>
+		
+		</aop:aspect>
+	</aop:config>
+	
+</beans>
